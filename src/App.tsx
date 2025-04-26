@@ -9,6 +9,7 @@ import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import { Toaster } from "sonner";
 import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";  // Add this import
 
 const App = () => {
   const [isCollapsed, setIsCollapsed] = useState(() => {
