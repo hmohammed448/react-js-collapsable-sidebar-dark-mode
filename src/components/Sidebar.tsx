@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Home, Book, Settings, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -6,10 +5,21 @@ import { cn } from '@/lib/utils';
 import { ProfileDropdown } from './ProfileDropdown';
 import { useIsMobile } from '@/hooks/use-mobile';
 
+const SIDEBAR_STATE_KEY = 'sidebarCollapsed';
+
 const Sidebar = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  // Initialize from localStorage, defaulting to false if no value exists
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    const saved = localStorage.getItem(SIDEBAR_STATE_KEY);
+    return saved ? JSON.parse(saved) : false;
+  });
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const isMobile = useIsMobile();
+
+  // Update localStorage when isCollapsed changes
+  useEffect(() => {
+    localStorage.setItem(SIDEBAR_STATE_KEY, JSON.stringify(isCollapsed));
+  }, [isCollapsed]);
 
   // Close sidebar when clicking outside on mobile
   useEffect(() => {

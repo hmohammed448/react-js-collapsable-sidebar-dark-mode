@@ -8,14 +8,37 @@ import About from "./pages/About";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import { Toaster } from "sonner";
+import { useState, useEffect } from "react";
 
 const App = () => {
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    const saved = localStorage.getItem('sidebarCollapsed');
+    return saved ? JSON.parse(saved) : false;
+  });
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const saved = localStorage.getItem('sidebarCollapsed');
+      setIsCollapsed(saved ? JSON.parse(saved) : false);
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
   return (
     <BrowserRouter>
       <ThemeProvider>
         <div className="min-h-screen flex bg-background text-foreground">
           <Sidebar />
-          <div className="flex-1 flex flex-col pl-4 md:pl-20">
+          <div className={cn(
+            "flex-1 flex flex-col transition-all duration-300",
+            {
+              "pl-20": isCollapsed,
+              "pl-72": !isCollapsed,
+              "pl-4": window.innerWidth < 768 // Mobile view
+            }
+          )}>
             <main className="flex-1 p-4">
               <Routes>
                 <Route path="/" element={<Home />} />
