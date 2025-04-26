@@ -8,10 +8,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { 
-  Upgrade, 
-  Account as AccountIcon, 
-  Billing, 
-  Notifications, 
+  Bell, 
+  User, 
+  Settings, 
   LogOut 
 } from "lucide-react";
 
@@ -35,20 +34,20 @@ export function ProfileDropdown() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuItem>
-          <Upgrade className="mr-2" />
+          <Settings className="mr-2" />
           <span>Upgrade to Pro</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <AccountIcon className="mr-2" />
+          <User className="mr-2" />
           <span>Account</span>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Billing className="mr-2" />
+          <Settings className="mr-2" />
           <span>Billing</span>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Notifications className="mr-2" />
+          <Bell className="mr-2" />
           <span>Notifications</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
