@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Home, Book, Settings, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ProfileDropdown } from './ProfileDropdown';
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -15,7 +16,7 @@ const Sidebar = () => {
 
   return (
     <div className={cn(
-      "fixed left-0 top-0 h-screen bg-background border-r transition-all duration-300 ease-in-out",
+      "fixed left-0 top-0 h-screen bg-background border-r transition-all duration-300 ease-in-out flex flex-col",
       isCollapsed ? "w-16" : "w-64"
     )}>
       <button
@@ -25,12 +26,16 @@ const Sidebar = () => {
         {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
       </button>
       
-      <div className="flex items-center p-4 gap-4">
-        <Menu className="h-6 w-6" />
-        {!isCollapsed && <span className="font-semibold">Navigation</span>}
+      <div className="flex items-center p-4 gap-4 border-b">
+        <img 
+          src="/lovable-uploads/3d4dd8a5-8d5b-45fc-9256-6753d1b4606b.png" 
+          alt="Logo"
+          className="h-8 w-8 object-contain"
+        />
+        {!isCollapsed && <span className="font-semibold">Platform</span>}
       </div>
 
-      <nav className="px-2">
+      <nav className="flex-1 px-2 py-4">
         {navigationItems.map((item) => (
           <Link
             key={item.path}
@@ -42,9 +47,12 @@ const Sidebar = () => {
           </Link>
         ))}
       </nav>
+
+      <div className="border-t p-2">
+        <ProfileDropdown />
+      </div>
     </div>
   );
 };
 
 export default Sidebar;
-
