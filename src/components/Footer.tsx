@@ -1,7 +1,11 @@
 
+import { cn } from "@/lib/utils";
+
 const Footer = () => {
   return (
-    <footer className="bg-background border-t py-6 mt-auto">
+    <footer className={cn(
+      "bg-background border-t py-4 w-full"
+    )}>
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-sm text-muted-foreground">
@@ -25,4 +29,3 @@ const Footer = () => {
 };
 
 export default Footer;
-

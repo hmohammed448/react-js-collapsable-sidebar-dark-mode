@@ -9,7 +9,7 @@ import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import { Toaster } from "sonner";
 import { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";  // Add this import
+import { cn } from "@/lib/utils";
 
 const App = () => {
   const [isCollapsed, setIsCollapsed] = useState(() => {
@@ -23,8 +23,20 @@ const App = () => {
       setIsCollapsed(saved ? JSON.parse(saved) : false);
     };
 
+    // Update content padding when sidebar state changes
     window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    
+    // Listen for custom event from sidebar component
+    const handleSidebarToggle = (e: CustomEvent) => {
+      setIsCollapsed(e.detail.isCollapsed);
+    };
+    
+    window.addEventListener('sidebarToggle', handleSidebarToggle as EventListener);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('sidebarToggle', handleSidebarToggle as EventListener);
+    };
   }, []);
 
   return (
@@ -32,14 +44,16 @@ const App = () => {
       <ThemeProvider>
         <div className="min-h-screen flex bg-background text-foreground">
           <Sidebar />
-          <div className={cn(
-            "flex-1 flex flex-col transition-all duration-300",
-            {
-              "pl-20": isCollapsed,
-              "pl-72": !isCollapsed,
-              "pl-4": window.innerWidth < 768 // Mobile view
-            }
-          )}>
+          <div 
+            className={cn(
+              "flex-1 flex flex-col transition-all duration-300",
+              {
+                "md:ml-16": isCollapsed, // 16 = 4rem (64px) collapsed width
+                "md:ml-64": !isCollapsed, // 64 = 16rem (256px) expanded width
+                "ml-0": true // Default for mobile
+              }
+            )}
+          >
             <main className="flex-1 p-4">
               <Routes>
                 <Route path="/" element={<Home />} />
